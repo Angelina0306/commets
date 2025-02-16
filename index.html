@@ -63,7 +63,7 @@
     </div>
   </body>
   <script>
-    "use strict";
+"use strict";
 
     const addFormButton = document.querySelector(".add-form-button");
     const commentsList = document.querySelector(".comments");
@@ -71,23 +71,23 @@
     const addFormTextInput = document.querySelector(".add-form-text");
 
     addFormButton.addEventListener("click", () => {
-      const name = addFormNameInput.value;
-      const commentText = addFormTextInput.value;
+        const name = addFormNameInput.value;
+        const commentText = addFormTextInput.value;
 
-      if (name.trim() === "" || commentText.trim() === "") {
-        alert("Пожалуйста, введите имя и комментарий.");
-        return;
-      }
+        if (name.trim() === "" || commentText.trim() === "") {
+            alert("Пожалуйста, введите имя и комментарий.");
+            return;
+        }
 
-      const newComment = document.createElement("li");
-      newComment.classList.add("comment");
+        const newComment = document.createElement("li");
+        newComment.classList.add("comment");
 
-      const now = new Date();
-      const dateString = `${now.toLocaleDateString()} ${now
-        .toLocaleTimeString()
-        .slice(0, 5)}`;
+        const now = new Date();
+        const dateString = `${now.toLocaleDateString()} ${now
+            .toLocaleTimeString()
+            .slice(0, 5)}`;
 
-      newComment.innerHTML = `
+        newComment.innerHTML = `
                 <div class="comment-header">
                     <div>${name}</div>
                     <div>${dateString}</div>
@@ -105,11 +105,54 @@
                 </div>
             `;
 
-      commentsList.appendChild(newComment);
+        commentsList.appendChild(newComment);
 
-      addFormNameInput.value = "";
-      addFormTextInput.value = "";
+        const likeButton = newComment.querySelector('.like-button');
+        const likesCounter = newComment.querySelector('.likes-counter');
+
+        likeButton.addEventListener('click', (event) => {
+            const button = event.target;
+            const counter = button.parentNode.querySelector('.likes-counter');
+            let likes = parseInt(counter.textContent);
+
+            if (button.classList.contains('-active-like')) {
+                likes--;
+                button.classList.remove('-active-like');
+            } else {
+                likes++;
+                button.classList.add('-active-like');
+            }
+
+            counter.textContent = likes;
+        });
+
+
+        addFormNameInput.value = "";
+        addFormTextInput.value = "";
+
     });
+
+    const existingLikeButtons = document.querySelectorAll('.like-button');
+    existingLikeButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const button = event.target;
+            const counter = button.parentNode.querySelector('.likes-counter');
+            let likes = parseInt(counter.textContent);
+
+            if (button.classList.contains('-active-like')) {
+                likes--;
+                button.classList.remove('-active-like');
+            } else {
+                likes++;
+                button.classList.add('-active-like');
+            }
+
+            counter.textContent = likes;
+        });
+    });
+
+
+
     console.log("It works!");
   </script>
 </html>
