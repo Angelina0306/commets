@@ -130,6 +130,13 @@
     const textInput = document.querySelector(".add-form-text");
 
    addButton.addEventListener("click", () => {
+      const name = nameInput.value.trim(); 
+    const text = textInput.value.trim();
+
+    if (name === "" || text === "") {
+        alert("Пожалуйста, введите имя и комментарий.");
+        return;
+    }
 
     const newComment = {
         name: escapeHtml(name),
