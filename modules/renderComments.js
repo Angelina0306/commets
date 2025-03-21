@@ -1,6 +1,10 @@
 import { comments } from "./comments.js";
-import { initReplyListeners } from "./initListeners.js";
- export const renderComments = () => {
+import {
+  handleCommentClick,
+  handleLikeClick,
+  initLoadListener,
+} from "./initListeners.js";
+export const renderComments = () => {
   const list = document.querySelector(".comments");
 
   list.innerHTML = comments
@@ -40,5 +44,4 @@ import { initReplyListeners } from "./initListeners.js";
   });
 };
 
-initLikeListeners ();
-initReplyListeners();
+initLoadListener();
