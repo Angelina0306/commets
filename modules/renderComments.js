@@ -1,15 +1,18 @@
-import { comments } from "./comments.js";
-import { initReplyListeners } from "./initListeners.js";
- export const renderComments = () => {
+import { getComments } from "./comments.js";
+import {
+  handleCommentClick,
+  handleLikeClick,
+  initLoadListener,
+} from "./initListeners.js";
+export const renderComments = async (comments) => {
   const list = document.querySelector(".comments");
-
   list.innerHTML = comments
     .map((comment, index) => {
       return `
                     <li class ="comment" data-index="${index}">
                         <div class="comment-header">
-                            <div>${comment.name}</div>
-                            <div>${comment.date.toLocaleDateString()}</div>
+                            <div>${comment.author.name}</div>
+                            <div>${comment.date}</div>
                         </div>
                         <div class="comment-body">
                             <div class="comment-text">
@@ -40,5 +43,4 @@ import { initReplyListeners } from "./initListeners.js";
   });
 };
 
-initLikeListeners ();
-initReplyListeners();
+initLoadListener();
