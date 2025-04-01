@@ -1,14 +1,19 @@
-export const getComments = async () => {
-  const response = await fetch("https://wedev-api.sky.pro/api/v1/angelina/comments");
-  const data = await response.json();
-  return data.comments;
+export let comments = [];
+
+export const addComment = (comment) => {
+  comments.push(comment);
 };
 
-export const addComment = async (name, text) => {
-  const response = await fetch("https://wedev-api.sky.pro/api/v1/angelina/comments", {
-    method: "POST",
-    body: JSON.stringify({ name, text }),
-  });
-  const data = await response.json();
-  return data.result;
+export const getComment = (index) => {
+  return comments[index];
+};
+
+export const likeComment = (index) => {
+  comments[index].likes++;
+  comments[index].isLiked = true;
+};
+
+export const dislikeComment = (index) => {
+  comments[index].likes--;
+  comments[index].isLiked = false;
 };

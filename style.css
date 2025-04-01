@@ -14,12 +14,9 @@ body {
   min-height: 100vh;
 }
 
-.com {
-}
-
-
 .comments,
 .comment {
+
   margin: 0;
   padding: 0;
   list-style: none;
@@ -42,6 +39,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px;
+
 }
 
 .comment {
