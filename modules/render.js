@@ -2,11 +2,11 @@ import { handleLikeClick, handleCommentClick } from "./handlers.js";
 import { comments } from "./comments.js";
 
 export const renderComments = async () => {
-    const list = document.querySelector(".comments");
+  const list = document.querySelector(".comments");
 
-    list.innerHTML = comments
-      .map((comment, index) => {
-        return `
+  list.innerHTML = comments
+    .map((comment, index) => {
+      return `
                       <li class ="comment" data-index="${index}">
                           <div class="comment-header">
                               <div>${comment.author.name}</div>
@@ -29,14 +29,14 @@ export const renderComments = async () => {
                           </div>
                       </li>
                   `;
-      })
-      .join("");
-  
-    document.querySelectorAll(".like-button").forEach((button) => {
-      button.addEventListener("click", handleLikeClick);
-    });
-  
-    document.querySelectorAll(".comment").forEach((commentElement) => {
-      commentElement.addEventListener("click", handleCommentClick);
-    });
-  };
+    })
+    .join("");
+
+  document.querySelectorAll(".like-button").forEach((button) => {
+    button.addEventListener("click", handleLikeClick);
+  });
+
+  document.querySelectorAll(".comment").forEach((commentElement) => {
+    commentElement.addEventListener("click", handleCommentClick);
+  });
+};

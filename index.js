@@ -7,19 +7,21 @@ export const init = async () => {
   const addButton = document.querySelector(".add-form-button");
   const loadingContainer = document.querySelector(".loading-container");
   const commentsContainer = document.querySelector(".comments");
-  
+
   addButton.addEventListener("click", handleAddComment);
-  
-  const comments = await getCommentsFromServer();
+  try {
+    const comments = await getCommentsFromServer();
 
-  loadingContainer.style.display = "none";
-  commentsContainer.style.display = "flex";
+    loadingContainer.style.display = "none";
+    commentsContainer.style.display = "flex";
 
-  comments.forEach(comment => {
-    addComment(comment);
-  });
-  renderComments();
-  
+    comments.forEach((comment) => {
+      addComment(comment);
+    });
+    renderComments();
+  } catch (e) {
+    alert(e.message);
+  }
 };
 
 init();

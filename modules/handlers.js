@@ -58,17 +58,24 @@ export const handleAddComment = async (event) => {
     isLiked: false,
   };
 
+  loadingContainer.style.display = "block";
+  form.style.display = "none";
+
+  try {
+    await addCommentToServer(comment.author.name, comment.text);
+  } catch (e) {
+    alert(e.message);
+    loadingContainer.style.display = "none";
+    form.style.display = "flex";
+    return;
+  }
+
+  addComment(comment);
+  renderComments();
+
   nameInput.value = "";
   textInput.value = "";
 
-  loadingContainer.style.display = "block";
-  form.style.display = "none";
-  
-  addComment(comment);
-  renderComments()
-  await addCommentToServer(comment.author.name, comment.text);
-
   loadingContainer.style.display = "none";
   form.style.display = "flex";
-
 };

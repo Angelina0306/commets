@@ -32,8 +32,12 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {
@@ -43,7 +47,6 @@ body {
 
 .comments,
 .comment {
-
   margin: 0;
   padding: 0;
   list-style: none;
@@ -66,7 +69,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px;
-
 }
 
 .comment {
