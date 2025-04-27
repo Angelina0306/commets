@@ -7,7 +7,7 @@ export const renderComments = async () => {
   list.innerHTML = comments
     .map((comment, index) => {
       return `
-                      <li class ="comment" data-index="${index}">
+                      <li class ="comment" data-index="${index}" data-id="${comment.id}">
                           <div class="comment-header">
                               <div>${comment.author.name}</div>
                               <div>${new Date(comment.date).toLocaleString()}</div>

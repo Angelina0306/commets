@@ -1,11 +1,10 @@
 import {
   getComment,
-  likeComment,
-  dislikeComment,
   addComment,
+  updateCommentLikes,
 } from "./comments.js";
 import { renderComments } from "./render.js";
-import { addCommentToServer } from "./api.js";
+import { addCommentToServer, register, login, toggleLike } from "./api.js";
 
 const escapeHTML = (str) => {
   return str.replace(/[&<>'"]/g, (tag) => {
@@ -23,19 +22,24 @@ const escapeHTML = (str) => {
 export const handleLikeClick = (event) => {
   const commentElement = event.target.closest(".comment");
   const index = commentElement.dataset.index;
+  const id = commentElement.dataset.id;
 
   if (index === undefined) return;
 
-  if (getComment(index).isLiked) {
-    dislikeComment(index);
-  } else {
-    likeComment(index);
-  }
-  renderComments();
+  // if (getComment(index).isLiked) {
+  //   dislikeComment(index);
+  // } else {
+  //   likeComment(index);
+  // }
+
+  toggleLike(id).then((data) => {
+    updateCommentLikes(index, data.isLiked, data.likes);
+    renderComments();
+  })
+  
 };
 
 export const handleCommentClick = (event) => {
-  const nameInput = document.querySelector(".add-form-name");
   const textInput = document.querySelector(".add-form-text");
   if (event.target.tagName !== "LI") return;
   const commentElement = event.currentTarget;
@@ -44,8 +48,7 @@ export const handleCommentClick = (event) => {
   if (index === undefined) return;
 
   const comment = getComment(index);
-  nameInput.value = comment.author.name;
-  textInput.value = `> ${comment.text}`;
+  textInput.value = `[${comment.author.name}]\n> ${comment.text}\n`;
 };
 
 export const handleAddComment = async (event) => {
@@ -91,4 +94,49 @@ export const handleAddComment = async (event) => {
 
   loadingContainer.style.display = "none";
   form.style.display = "flex";
+};
+
+export const handleRegFormSubmit = async (event) => {
+  event.preventDefault();
+  const loginInput = document.querySelector(".login-input");
+  const nameInput = document.querySelector(".name-input");
+  const passwordInput = document.querySelector(".password-input");
+  const login = escapeHTML(loginInput.value.trim());
+  const name = escapeHTML(nameInput.value.trim());
+  const password = escapeHTML(passwordInput.value.trim());
+  if (login.length < 3 || name.length < 3 || password.length < 3) {
+    alert("Логин, имя и пароль должны быть длиннее 3 символов.");
+    return;
+  }
+  try {
+    const regData = await register(login, name, password);
+    localStorage.setItem("user", JSON.stringify({"name": regData.name, "token": regData.token, "id": regData.id}));
+    window.location.href = "/";
+  } catch (e) {
+    alert(e.message);
+  }
+};
+
+export const handleLoginFormSubmit = async (event) => {
+  event.preventDefault();
+  const loginInput = document.querySelector(".login-input");
+  const passwordInput = document.querySelector(".password-input");
+  const loginText = escapeHTML(loginInput.value.trim());
+  const password = escapeHTML(passwordInput.value.trim());
+  if (loginText.length < 3 || password.length < 3) {
+    alert("Логин и пароль должны быть длиннее 3 символов.");
+    return;
+  }
+  try {
+    const loginData = await login(loginText, password);
+    localStorage.setItem("user", JSON.stringify({"name": loginData.name, "token": loginData.token, "id": loginData.id}));
+    window.location.href = "/";
+  } catch (e) {
+    alert(e.message);
+  }
+};
+
+export const handleLogoutButtonClick = () => {
+  localStorage.removeItem("user");
+  window.location.reload();
 };
