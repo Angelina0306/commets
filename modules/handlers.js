@@ -26,6 +26,9 @@ export const handleLikeClick = (event) => {
 
   if (index === undefined) return;
 
+  if (!localStorage.getItem('user')){
+    alert("Чтобы ставить лайки необходимо войти!")
+  } 
   // if (getComment(index).isLiked) {
   //   dislikeComment(index);
   // } else {
@@ -89,7 +92,7 @@ export const handleAddComment = async (event) => {
   addComment(comment);
   renderComments();
 
-  nameInput.value = "";
+  nameInput.value = name;
   textInput.value = "";
 
   loadingContainer.style.display = "none";

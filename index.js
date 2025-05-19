@@ -2,6 +2,7 @@ import { handleAddComment, handleLogoutButtonClick } from "./modules/handlers.js
 import { renderComments } from "./modules/render.js";
 import { getCommentsFromServer } from "./modules/api.js";
 import { addComment } from "./modules/comments.js";
+import { showLoginForm, showRegForm } from "./modules/registerForm.js";
 
 export const init = async () => {
   if (!localStorage.getItem("user")) {
@@ -16,6 +17,8 @@ export const init = async () => {
   const addButton = document.querySelector(".add-form-button");
   const loadingContainer = document.querySelector(".loading-container");
   const commentsContainer = document.querySelector(".comments");
+  const loginButton = document.querySelector('#loginButton');
+  const regButton = document.querySelector("#authButton");
 
   const logoutButton = document.querySelector(".logout-button");
   logoutButton.addEventListener("click", handleLogoutButtonClick);
@@ -27,6 +30,8 @@ export const init = async () => {
     addFormName.setAttribute("readonly", "true")
   }
 
+  loginButton.addEventListener('click', showLoginForm);
+  regButton.addEventListener('click', showRegForm)
   addButton.addEventListener("click", handleAddComment);
   try {
     const comments = await getCommentsFromServer();
