@@ -4,7 +4,7 @@ import {
   updateCommentLikes,
 } from "./comments.js";
 import { renderComments } from "./render.js";
-import { addCommentToServer, register, login, toggleLike } from "./api.js";
+import { addCommentToServer, register, login, toggleLike, getCommentsFromServer } from "./api.js";
 
 const escapeHTML = (str) => {
   return str.replace(/[&<>'"]/g, (tag) => {
@@ -82,6 +82,9 @@ export const handleAddComment = async (event) => {
 
   try {
     await addCommentToServer(comment.author.name, comment.text);
+    // Костыль, так как сервер не возвращает id комментария
+    const comments = await getCommentsFromServer();
+    addComment(comments.at(-1))
   } catch (e) {
     alert(e.message);
     loadingContainer.style.display = "none";
@@ -89,7 +92,6 @@ export const handleAddComment = async (event) => {
     return;
   }
 
-  addComment(comment);
   renderComments();
 
   nameInput.value = name;
