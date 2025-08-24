@@ -6,5 +6,5 @@ import eslintConfigPrettier from "eslint-config-prettier/flat";
 export default [
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
-  eslintConfigPrettier
+  eslintConfigPrettier,
 ];
