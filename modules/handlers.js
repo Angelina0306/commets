@@ -39,6 +39,9 @@ export const handleAddComment = async (event) => {
   event.preventDefault();
   const nameInput = document.querySelector(".add-form-name");
   const textInput = document.querySelector(".add-form-text");
+  const loadingContainer = document.querySelector(".loading-container");
+  const form = document.querySelector(".add-form");
+
   const name = nameInput.value.trim();
   const text = textInput.value.trim();
   if (name.length < 3 || text.length < 3) {
@@ -58,8 +61,14 @@ export const handleAddComment = async (event) => {
   nameInput.value = "";
   textInput.value = "";
 
+  loadingContainer.style.display = "block";
+  form.style.display = "none";
   
   addComment(comment);
   renderComments()
   await addCommentToServer(comment.author.name, comment.text);
+
+  loadingContainer.style.display = "none";
+  form.style.display = "flex";
+
 };
