@@ -1,16 +1,19 @@
-export let comments = [
-  {
-    name: "Глеб Фокин",
-    date: new Date(),
-    text: "Это будет первый комментарий на этой странице",
-    likes: 3,
-    isLiked: false,
-  },
-  {
-    name: "Варвара Н.",
-    date: new Date(),
-    text: "Мне нравится как оформлена эта страница! ❤",
-    likes: 75,
-    isLiked: true,
-  },
-];
+export let comments = [];
+
+export const addComment = (comment) => {
+  comments.push(comment);
+};
+
+export const getComment = (index) => {
+  return comments[index];
+};
+
+export const likeComment = (index) => {
+  comments[index].likes++;
+  comments[index].isLiked = true;
+};
+
+export const dislikeComment = (index) => {
+  comments[index].likes--;
+  comments[index].isLiked = false;
+};
