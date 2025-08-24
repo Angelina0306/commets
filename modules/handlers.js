@@ -4,7 +4,7 @@ import {
   updateCommentLikes,
 } from "./comments.js";
 import { renderComments } from "./render.js";
-import { addCommentToServer, register, login, toggleLike } from "./api.js";
+import { addCommentToServer, register, login, toggleLike, getCommentsFromServer } from "./api.js";
 
 const escapeHTML = (str) => {
   return str.replace(/[&<>'"]/g, (tag) => {
@@ -26,6 +26,9 @@ export const handleLikeClick = (event) => {
 
   if (index === undefined) return;
 
+  if (!localStorage.getItem('user')){
+    alert("Чтобы ставить лайки необходимо войти!")
+  } 
   // if (getComment(index).isLiked) {
   //   dislikeComment(index);
   // } else {
@@ -79,6 +82,9 @@ export const handleAddComment = async (event) => {
 
   try {
     await addCommentToServer(comment.author.name, comment.text);
+    // Костыль, так как сервер не возвращает id комментария
+    const comments = await getCommentsFromServer();
+    addComment(comments.at(-1))
   } catch (e) {
     alert(e.message);
     loadingContainer.style.display = "none";
@@ -86,10 +92,9 @@ export const handleAddComment = async (event) => {
     return;
   }
 
-  addComment(comment);
   renderComments();
 
-  nameInput.value = "";
+  nameInput.value = name;
   textInput.value = "";
 
   loadingContainer.style.display = "none";
